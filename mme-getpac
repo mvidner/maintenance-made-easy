@@ -33,13 +33,7 @@ osc build "$@"
 cd $OSC_BUILD_ROOT/tmp
 SVN_PKG=${PKG#yast2-}
 svn co -q http://svn.opensuse.org/svn/yast/branches/${SVN_BRANCH}/${SVN_PKG}
-# logname is set by login(1)
-sudo -s "getent passwd $LOGNAME >> $OSC_BUILD_ROOT/etc/passwd"
-#  sudo chroot $OSC_BUILD_ROOT
-#(in the chroot)
-#    su $LOGNAME
-#or in one step
-sudo chroot --userspec=$LOGNAME:users $OSC_BUILD_ROOT sh -c "
+mme-chroot sh -c "
       cd /tmp/${SVN_PKG}  # FIXME
       make -f Makefile.cvs
       make package-local CHECK_SYNTAX=false
