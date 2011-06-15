@@ -1,0 +1,16 @@
+#! /bin/sh -x
+# usage:
+# OSC_BUILD_ROOT=/path [USER=joe] mme-chroot command [args]
+
+set -o errexit
+# logname is set by login(1)
+: ${USER=$LOGNAME}
+: ${ROOT=$OSC_BUILD_ROOT}
+
+PASSWD=$ROOT/etc/passwd
+if ! grep -q "^${USER}:" "$PASSWD"; then
+    sudo -s "getent passwd ${USER} >> ${PASSWD}"
+fi
+
+# TODO set prompt, WM label
+sudo chroot --userspec=$USER:users $ROOT "$@"

@@ -1,0 +1,55 @@
+#! /bin/sh -x
+# mme getpac yast2-network sp1
+set -o errexit
+PKG=$1
+SHORT_PRJ=$2
+shift 2
+case ${SHORT_PRJ-sp1} in
+    sp1)
+        PRJ=SUSE:SLE-11-SP1:Update:Test
+        PRJ_BASE=sle11sp1
+        SVN_BRANCH=SuSE-Code-11-SP1-Branch
+        ;;
+    sp2)
+        PRJ=SUSE:SLE-11-SP2:GA
+        PRJ_BASE=sle11sp2
+        SVN_BRANCH=SuSE-Code-11-SP2-Branch
+        ;;
+esac
+: ${OSC_USER=$LOGNAME}
+cd ~
+OSC_WORK=~/"home:$OSC_USER:branches:$PRJ"/$PKG
+osc -A https://api.suse.de bco $PRJ $PKG || test -d $OSC_WORK
+# ^ but that will prompt for a message (put in swamp or bnc)
+#caching build before I work on the package:
+cd $OSC_WORK
+# TODO, figure out the build root automatically:
+export OSC_BUILD_ROOT=/var/tmp/build-root-$PRJ_BASE
+osc build "$@"
+# WTF? "BuildService API error: can't verify packages due to lack of GPG keys"
+#  retry with --no-verify
+
+#make a tarball in the chroot:
+cd $OSC_BUILD_ROOT/tmp
+SVN_PKG=${PKG#yast2-}
+svn co -q http://svn.opensuse.org/svn/yast/branches/${SVN_BRANCH}/${SVN_PKG}
+# logname is set by login(1)
+sudo -s "getent passwd $LOGNAME >> $OSC_BUILD_ROOT/etc/passwd"
+#  sudo chroot $OSC_BUILD_ROOT
+#(in the chroot)
+#    su $LOGNAME
+#or in one step
+sudo chroot --userspec=$LOGNAME:users $OSC_BUILD_ROOT sh -c "
+      cd /tmp/${SVN_PKG}  # FIXME
+      make -f Makefile.cvs
+      make package-local CHECK_SYNTAX=false
+"
+rm -v $OSC_WORK/*.tar.*
+cp -av ${SVN_PKG}/package/* $OSC_WORK
+cd $OSC_WORK
+osc ar
+osc build "$@"
+cp -av $OSC_BUILD_ROOT/.build.packages/RPMS/*/*.rpm /tmp 
+: osc ci
+: osc sr
+echo DONE in `pwd`
