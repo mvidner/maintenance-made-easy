@@ -1,0 +1,25 @@
+#! /bin/sh -x
+# mme getpac yast2-network sp1
+
+# fd3 will be our output, stdout goes stderr
+exec 3>&1 >&2
+
+set -o errexit
+
+if [ "$1" = --clone ]; then
+    DEST=$2
+    cp $0 $DEST
+    chmod +x $DEST
+    exit
+fi
+
+PKG=$1
+SHORT_PRJ=$2
+shift 2
+
+# assuming yast2, svn
+make -f Makefile.cvs
+make package-local CHECK_SYNTAX=false
+
+cd package
+pwd >&3

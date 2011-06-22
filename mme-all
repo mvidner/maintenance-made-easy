@@ -1,0 +1,56 @@
+#! /bin/sh -x
+# mme getpac yast2-network sp1
+set -o errexit
+
+PKG=$1
+SHORT_PRJ=$2
+shift 2
+
+case ${SHORT_PRJ-sp1} in
+    114)
+        PRJ_BASE=114
+        ;;
+    sp1)
+        PRJ_BASE=sle11sp1
+        ;;
+    sp2)
+        PRJ_BASE=sle11sp2
+        ;;
+    *)
+        echo missing case \'$SHORT_PRJ\'
+        exit 1
+        ;;
+esac
+
+OSC_WORK=`mme-getpac "$PKG" "$SHORT_PRJ"`
+cd $OSC_WORK
+export OSC_BUILD_ROOT=/var/tmp/build-root-$PRJ_BASE
+
+#caching build before I work on the package:
+osc build "$@"
+# WTF? "BuildService API error: can't verify packages due to lack of GPG keys"
+#  retry with --no-verify
+
+#make a tarball in the chroot:
+
+VCS=`mktemp -d $OSC_BUILD_ROOT/tmp/$PKG-XXXX`
+# ^ TODO cleanup
+cd $VCS
+mme-getvcs $PKG $SHORT_PRJ
+
+mme-makepac --clone $VCS/.mme-makepac
+NEW_PKG=$OSC_BUILD_ROOT$(mme-chroot sh -c "
+        cd ${VCS#$OSC_BUILD_ROOT}
+	./.mme-makepac $PKG $SHORT_PRJ
+")
+rm -v $OSC_WORK/*.tar.*
+cp -av $NEW_PKG/* $OSC_WORK
+
+cd $OSC_WORK
+osc ar
+osc build "$@"
+
+cp -av $OSC_BUILD_ROOT/.build.packages/RPMS/*/*.rpm /tmp 
+: osc ci
+: osc sr
+echo DONE in `pwd`

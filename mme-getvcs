@@ -1,0 +1,32 @@
+#! /bin/sh -x
+# mkdir someplace; cd $_
+# mme getvcs yast2-network sp1
+## will check out to that dir
+
+set -o errexit
+
+PKG=$1
+SHORT_PRJ=$2
+shift 2
+
+# assuming yast2, svn
+
+case ${SHORT_PRJ-sp1} in
+    114)
+        SVN_BRANCH=SuSE-Linux-11_4-Branch
+        ;;
+    sp1)
+        SVN_BRANCH=SuSE-Code-11-SP1-Branch
+        ;;
+    sp2)
+        SVN_BRANCH=SuSE-Code-11-SP2-Branch
+        ;;
+    *)
+        echo missing case \'$SHORT_PRJ\'
+        exit 1
+        ;;
+esac
+
+
+SVN_PKG=${PKG#yast2-}
+svn co -q http://svn.opensuse.org/svn/yast/branches/${SVN_BRANCH}/${SVN_PKG} .
