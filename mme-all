@@ -35,9 +35,8 @@ cp -av $NEW_PKG/* $OSC_WORK
 
 cd $OSC_WORK
 osc ar
-osc build "$@"
+osc build -k /tmp "$@"
 
-cp -av $OSC_BUILD_ROOT/.build.packages/RPMS/*/*.rpm /tmp 
 : osc ci
 : osc sr
 echo DONE in `pwd`
