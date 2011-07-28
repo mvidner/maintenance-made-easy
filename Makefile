@@ -1,5 +1,5 @@
 BINDIR=$$HOME/bin
-SCRIPTS=mme-all mme-getpac mme-makepac mme-chroot mme-getvcs
+SCRIPTS=mme-all mme-env mme-getpac mme-makepac mme-chroot mme-getvcs
 help:
 	@echo usage: make install
 install-links:

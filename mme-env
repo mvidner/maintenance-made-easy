@@ -1,0 +1,25 @@
+#! /bin/sh -x
+# mme env yast2-network sp1
+
+PKG=$1
+SHORT_PRJ=$2
+shift 2
+
+case ${SHORT_PRJ-sp1} in
+    114)
+        PRJ_BASE=114
+        ;;
+    sp1)
+        PRJ_BASE=sle11sp1
+        ;;
+    sp2)
+        PRJ_BASE=sle11sp2
+        ;;
+    *)
+        echo missing case \'$SHORT_PRJ\'
+        return 1
+        ;;
+esac
+
+
+export OSC_BUILD_ROOT=/var/tmp/build-root-$PRJ_BASE
