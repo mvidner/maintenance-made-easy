@@ -9,6 +9,10 @@ PKG=$1
 SHORT_PRJ=$2
 shift 2
 case ${SHORT_PRJ-sp1} in
+    factory)
+        API=https://api.opensuse.org
+        PRJ=openSUSE:Factory
+        ;;
     114)
         API=https://api.opensuse.org
         PRJ=openSUSE:11.4:Update:Test
@@ -28,7 +32,13 @@ case ${SHORT_PRJ-sp1} in
 esac
 : ${OSC_USER=$LOGNAME}
 cd ~
-OSC_WORK=~/"home:$OSC_USER:branches:$PRJ"/$PKG
-osc -A $API bco $PRJ $PKG || test -d $OSC_WORK
+DEVEL_PRJ=`osc develproject $PRJ $PKG`
+case $DEVEL_PRJ in
+    *has?no?devel?project)
+        DEVEL_PRJ=$PRJ
+        ;;
+esac
+OSC_WORK=~/"home:$OSC_USER:branches:$DEVEL_PRJ"/$PKG
+osc -A $API bco $DEVEL_PRJ $PKG || test -d $OSC_WORK
 
 echo >&3 $OSC_WORK

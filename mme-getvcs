@@ -12,14 +12,17 @@ shift 2
 # assuming yast2, svn
 
 case ${SHORT_PRJ-sp1} in
+    factory)
+        SVN_BRANCH=trunk
+        ;;
     114)
-        SVN_BRANCH=SuSE-Linux-11_4-Branch
+        SVN_BRANCH=branches/SuSE-Linux-11_4-Branch
         ;;
     sp1)
-        SVN_BRANCH=SuSE-Code-11-SP1-Branch
+        SVN_BRANCH=branches/SuSE-Code-11-SP1-Branch
         ;;
     sp2)
-        SVN_BRANCH=SuSE-Code-11-SP2-Branch
+        SVN_BRANCH=branches/SuSE-Code-11-SP2-Branch
         ;;
     *)
         echo missing case \'$SHORT_PRJ\'
@@ -29,4 +32,4 @@ esac
 
 
 SVN_PKG=${PKG#yast2-}
-svn co -q http://svn.opensuse.org/svn/yast/branches/${SVN_BRANCH}/${SVN_PKG} .
+svn co -q http://svn.opensuse.org/svn/yast/${SVN_BRANCH}/${SVN_PKG} .

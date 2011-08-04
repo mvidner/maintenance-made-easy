@@ -6,14 +6,17 @@ SHORT_PRJ=$2
 shift 2
 
 case ${SHORT_PRJ-sp1} in
+    factory)
+        PRJ_BASE=""
+        ;;
     114)
-        PRJ_BASE=114
+        PRJ_BASE=-114
         ;;
     sp1)
-        PRJ_BASE=sle11sp1
+        PRJ_BASE=-sle11sp1
         ;;
     sp2)
-        PRJ_BASE=sle11sp2
+        PRJ_BASE=-sle11sp2
         ;;
     *)
         echo missing case \'$SHORT_PRJ\'
@@ -22,4 +25,4 @@ case ${SHORT_PRJ-sp1} in
 esac
 
 
-export OSC_BUILD_ROOT=/var/tmp/build-root-$PRJ_BASE
+export OSC_BUILD_ROOT=/var/tmp/build-root$PRJ_BASE
