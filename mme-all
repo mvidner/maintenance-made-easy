@@ -37,6 +37,7 @@ cd $OSC_WORK
 osc ar
 osc build -k /tmp "$@"
 
+echo DONE. Suggestion:
+: cd `pwd`
 : osc ci
 : osc sr
-echo DONE in `pwd`
