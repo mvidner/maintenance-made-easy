@@ -32,7 +32,7 @@ case ${SHORT_PRJ-sp1} in
 esac
 : ${OSC_USER=$LOGNAME}
 cd ~
-DEVEL_PRJ=`osc develproject $PRJ $PKG`
+DEVEL_PRJ=`osc -A $API develproject $PRJ $PKG`
 case $DEVEL_PRJ in
     *has?no?devel?project)
         DEVEL_PRJ=$PRJ
