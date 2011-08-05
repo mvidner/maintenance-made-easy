@@ -32,7 +32,11 @@ OSC_WORK=`mme-getpac "$PKG" "$SHORT_PRJ"`
 cd $OSC_WORK
 
 #caching build before I work on the package:
-osc build "$@"
+if [ -f $OSC_BUILD_ROOT/usr/src/packages/SOURCES/$PKG.changes ]; then
+    : assuming the package has been built, recently
+else
+    osc build "$@"
+fi
 # WTF? "BuildService API error: can't verify packages due to lack of GPG keys"
 #  retry with --no-verify
 
