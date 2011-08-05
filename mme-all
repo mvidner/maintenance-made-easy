@@ -2,6 +2,24 @@
 # mme getpac yast2-network sp1
 set -o errexit
 
+GIT=""
+USAGE=false
+while getopts hg: FLAG; do
+    case $FLAG in
+	h) USAGE=true;;
+	g) GIT="$OPTARG";;
+	*) USAGE=true; RC=1;;
+    esac
+done
+shift $((OPTIND-1))
+
+if $USAGE; then
+    echo "Usage: $0 [options] PKG SHORT_PRJ"
+    echo " -h  Help"
+    echo " -g <git URL> clone from here instead"
+    exit $RC
+fi
+
 PKG=$1
 SHORT_PRJ=$2
 shift 2
@@ -23,7 +41,7 @@ osc build "$@"
 VCS=`mktemp -d $OSC_BUILD_ROOT/tmp/$PKG-XXXX`
 # ^ TODO cleanup
 cd $VCS
-mme-getvcs $PKG $SHORT_PRJ
+mme-getvcs -g "$GIT" $PKG $SHORT_PRJ
 
 mme-makepac --clone $VCS/.mme-makepac
 NEW_PKG=$OSC_BUILD_ROOT$(mme-chroot sh -c "

@@ -5,9 +5,32 @@
 
 set -o errexit
 
+GIT=""
+USAGE=false
+while getopts hg: FLAG; do
+    case $FLAG in
+	h) USAGE=true;;
+	g) GIT="$OPTARG";;
+	*) USAGE=true; RC=1;;
+    esac
+done
+shift $((OPTIND-1))
+
+if $USAGE; then
+    echo "Usage: $0 [options] PKG SHORT_PRJ"
+    echo " -h  Help"
+    echo " -g <git URL> clone from here instead"
+    exit $RC
+fi
+
 PKG=$1
 SHORT_PRJ=$2
 shift 2
+
+if [ -n "$GIT" ]; then
+    git clone "$GIT" .
+    exit
+fi
 
 # assuming yast2, svn
 
