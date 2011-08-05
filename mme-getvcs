@@ -47,8 +47,11 @@ case ${SHORT_PRJ-sp1} in
     sp2)
         SVN_BRANCH=branches/SuSE-Code-11-SP2-Branch
         ;;
+    sle10sp3)
+        SVN_BRANCH=branches/SuSE-SLE-10-SP3-Branch
+        ;;
     *)
-        echo missing case \'$SHORT_PRJ\'
+        echo missing case \'$SHORT_PRJ\' in $0
         exit 1
         ;;
 esac

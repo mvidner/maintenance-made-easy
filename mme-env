@@ -18,8 +18,11 @@ case ${SHORT_PRJ-sp1} in
     sp2)
         PRJ_BASE=-sle11sp2
         ;;
+    sle10sp3)
+        PRJ_BASE=-sle10sp3
+        ;;
     *)
-        echo missing case \'$SHORT_PRJ\'
+        echo missing case \'$SHORT_PRJ\' in $0
         return 1
         ;;
 esac
