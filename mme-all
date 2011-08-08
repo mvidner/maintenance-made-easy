@@ -43,7 +43,7 @@ fi
 #make a tarball in the chroot:
 
 VCS=`mktemp -d $OSC_BUILD_ROOT/tmp/$PKG-XXXX`
-# ^ TODO cleanup
+
 cd $VCS
 mme-getvcs -g "$GIT" $PKG $SHORT_PRJ
 
@@ -58,6 +58,8 @@ cp -av $NEW_PKG/* $OSC_WORK
 cd $OSC_WORK
 osc ar
 osc build -k /tmp "$@"
+
+rm -rf $VCS
 
 echo DONE. Suggestion:
 : cd `pwd`
