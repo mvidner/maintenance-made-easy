@@ -4,10 +4,12 @@ set -o errexit
 
 GIT=""
 USAGE=false
-while getopts hg: FLAG; do
+BRANCH=true
+while getopts hg:B FLAG; do
     case $FLAG in
 	h) USAGE=true;;
 	g) GIT="$OPTARG";;
+        B) BRANCH=false;;
 	*) USAGE=true; RC=1;;
     esac
 done
@@ -17,6 +19,7 @@ if $USAGE; then
     echo "Usage: $0 [options] PKG SHORT_PRJ"
     echo " -h  Help"
     echo " -g <git URL> clone from here instead"
+    echo " -B  Don't branch the OBS project"
     exit $RC
 fi
 
@@ -28,7 +31,7 @@ shift 2
 # set OSC_BUILD_ROOT
 . mme-env "$PKG" "$SHORT_PRJ"
 
-OSC_WORK=`mme-getpac "$PKG" "$SHORT_PRJ"`
+OSC_WORK=`mme-getpac $($BRANCH || echo -B) "$PKG" "$SHORT_PRJ"`
 cd $OSC_WORK
 
 #caching build before I work on the package:

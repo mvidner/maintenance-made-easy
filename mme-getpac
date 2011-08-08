@@ -5,6 +5,25 @@
 exec 3>&1 >&2
 
 set -o errexit
+
+USAGE=false
+BRANCH=true
+while getopts hg:B FLAG; do
+    case $FLAG in
+	h) USAGE=true;;
+        B) BRANCH=false;;
+	*) USAGE=true; RC=1;;
+    esac
+done
+shift $((OPTIND-1))
+
+if $USAGE; then
+    echo "Usage: $0 [options] PKG SHORT_PRJ"
+    echo " -h  Help"
+    echo " -B  Don't branch the OBS project"
+    exit $RC
+fi
+
 PKG=$1
 SHORT_PRJ=$2
 shift 2
@@ -42,7 +61,13 @@ case $DEVEL_PRJ in
         DEVEL_PRJ=$PRJ
         ;;
 esac
-OSC_WORK=~/"home:$OSC_USER:branches:$DEVEL_PRJ"/$PKG
-osc -A $API bco $DEVEL_PRJ $PKG || test -d $OSC_WORK
+
+if $BRANCH; then
+    OSC_WORK=~/"home:$OSC_USER:branches:$DEVEL_PRJ"/$PKG
+    osc -A $API bco $DEVEL_PRJ $PKG || test -d $OSC_WORK
+else
+    OSC_WORK=~/$DEVEL_PRJ/$PKG
+    osc -A $API co $DEVEL_PRJ $PKG || test -d $OSC_WORK
+fi
 
 echo >&3 $OSC_WORK
