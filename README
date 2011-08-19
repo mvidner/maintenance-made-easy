@@ -1,0 +1,10 @@
+mme: Maintenance Made Easy
+Author: Martin Vidner
+License: MIT
+
+This little project helps me to package, build and release YaST maintenance
+updates for openSUSE and SUSE Linux Enterprise.
+
+It uses OBS (openSUSE Build Service), SVN and Git.
+
+I hope to make it sufficiently general to be useful for other packages in SUSE.
