@@ -69,5 +69,7 @@ else
     OSC_WORK=~/$DEVEL_PRJ/$PKG
     osc -A $API co $DEVEL_PRJ $PKG || test -d $OSC_WORK
 fi
+cd $OSC_WORK
+osc up
 
 echo >&3 $OSC_WORK
