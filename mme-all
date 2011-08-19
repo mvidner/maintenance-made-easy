@@ -38,7 +38,9 @@ cd $OSC_WORK
 if [ -f $OSC_BUILD_ROOT/usr/src/packages/SOURCES/$PKG.changes ]; then
     : assuming the package has been built, recently
 else
-    osc build "$@"
+    # short circuit the first build
+    sed -i -e '/^%build/aexit 1' $PKG.spec
+    osc build --build-uid=caller "$@" || true
 fi
 # WTF? "BuildService API error: can't verify packages due to lack of GPG keys"
 #  retry with --no-verify
@@ -60,7 +62,7 @@ cp -av $NEW_PKG/* $OSC_WORK
 
 cd $OSC_WORK
 osc ar
-osc build -k /tmp "$@"
+osc build --build-uid=caller -k /tmp "$@"
 
 rm -rf $VCS
 
