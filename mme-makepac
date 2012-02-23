@@ -17,9 +17,28 @@ PKG=$1
 SHORT_PRJ=$2
 shift 2
 
-# assuming yast2, svn
-make -f Makefile.cvs
-make package-local CHECK_SYNTAX=false
+if test $PKG = yast2-devtools; then
+    OPTS=Y2DEVTOOLS_PREFIX=/usr
+fi
+
+if test -f Makefile.cvs; then
+    # assuming yast2, svn
+    make -f Makefile.cvs
+    make package-local CHECK_SYNTAX=false $OPTS
+elif test -f CMakeLists.txt; then
+    mkdir build
+    cd build
+    # from spec
+    cmake -DCMAKE_INSTALL_PREFIX=/usr \
+      -DLIB=lib \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_SKIP_RPATH=1 \
+      ..
+    make srcpackage
+else
+    echo >&2 "Did not recognize the build system"
+    exit 1
+fi
 
 cd package
 pwd >&3
