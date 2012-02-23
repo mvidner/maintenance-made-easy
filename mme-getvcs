@@ -38,17 +38,20 @@ case ${SHORT_PRJ-sp1} in
     factory)
         SVN_BRANCH=trunk
         ;;
+    112)
+        SVN_BRANCH=branches/SuSE-Linux-12_1-Branch
+        ;;
     114)
         SVN_BRANCH=branches/SuSE-Linux-11_4-Branch
         ;;
     113)
         SVN_BRANCH=branches/SuSE-Linux-11_3-Branch
         ;;
-    sp1)
-        SVN_BRANCH=branches/SuSE-Code-11-SP1-Branch
-        ;;
     sp2)
         SVN_BRANCH=branches/SuSE-Code-11-SP2-Branch
+        ;;
+    sp1)
+        SVN_BRANCH=branches/SuSE-Code-11-SP1-Branch
         ;;
     sle10sp4)
         SVN_BRANCH=branches/SuSE-SLE-10-SP4-Branch
