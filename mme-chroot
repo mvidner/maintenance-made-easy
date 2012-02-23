@@ -9,7 +9,7 @@ set -o errexit
 
 PASSWD=$ROOT/etc/passwd
 if ! grep -q "^${USER}:" "$PASSWD"; then
-    sudo -s "getent passwd ${USER} >> ${PASSWD}"
+    sudo sh -c "getent passwd ${USER} >> ${PASSWD}"
 fi
 
 # TODO set prompt, WM label
