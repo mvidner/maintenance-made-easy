@@ -75,7 +75,6 @@ osc_config_get () {
 } 
 OSC_USER="$(osc_config_get $API user)"
 
-cd ~
 DEVEL_PRJ=`osc -A $API develproject $PRJ $PKG`
 case $DEVEL_PRJ in
     *has?no?devel?project)
@@ -83,11 +82,15 @@ case $DEVEL_PRJ in
         ;;
 esac
 
+: ${OSC_WORKBASE=$HOME/obs}
+mkdir -p "$OSC_WORKBASE"
+cd "$OSC_WORKBASE"
+
 if $BRANCH; then
-    OSC_WORK=~/"home:$OSC_USER:branches:$DEVEL_PRJ"/$PKG
+    OSC_WORK="$OSC_WORKBASE/home:$OSC_USER:branches:$DEVEL_PRJ/$PKG"
     osc -A $API bco $DEVEL_PRJ $PKG || test -d $OSC_WORK
 else
-    OSC_WORK=~/$DEVEL_PRJ/$PKG
+    OSC_WORK="$OSC_WORKBASE/$DEVEL_PRJ/$PKG"
     osc -A $API co $DEVEL_PRJ $PKG || test -d $OSC_WORK
 fi
 cd $OSC_WORK
