@@ -30,6 +30,9 @@ case ${SHORT_PRJ-sp1} in
     sle10sp3)
         PRJ_BASE=-sle10sp3
         ;;
+    sle10sp2)
+        PRJ_BASE=-sle10sp2
+        ;;
     *)
         echo missing case \'$SHORT_PRJ\' in $0
         return 1

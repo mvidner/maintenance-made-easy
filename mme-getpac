@@ -59,6 +59,9 @@ case ${SHORT_PRJ-sp1} in
     sle10sp3)
         PRJ=SUSE:SLE-10-SP3:Update:Test
         ;;
+    sle10sp2)
+        PRJ=SUSE:SLE-10-SP2:Update:Test
+        ;;
     *)
         echo missing case \'$SHORT_PRJ\' in $0
         exit 1
