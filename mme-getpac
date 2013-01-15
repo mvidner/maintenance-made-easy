@@ -47,6 +47,9 @@ case ${SHORT_PRJ-sp1} in
         API=https://api.opensuse.org
         PRJ=openSUSE:11.3:Update:Test
         ;;
+    sp3)
+        PRJ=SUSE:SLE-11-SP3:GA
+        ;;
     sp2)
         PRJ=SUSE:SLE-11-SP2:Update:Test
         ;;

@@ -18,6 +18,9 @@ case ${SHORT_PRJ-sp1} in
     113)
         PRJ_BASE=-113
         ;;
+    sp3)
+        PRJ_BASE=-sle11sp3
+        ;;
     sp2)
         PRJ_BASE=-sle11sp2
         ;;
