@@ -46,7 +46,7 @@ fi
 #  retry with --no-verify
 
 #make a tarball in the chroot:
-
+mkdir -p       $OSC_BUILD_ROOT/tmp
 VCS=`mktemp -d $OSC_BUILD_ROOT/tmp/$PKG-XXXX`
 
 cd $VCS
