@@ -13,4 +13,4 @@ if ! grep -q "^${USER}:" "$PASSWD"; then
 fi
 
 # TODO set prompt, WM label
-sudo chroot --userspec=$USER:users $ROOT "$@"
+sudo chroot --userspec=$USER:users $ROOT env HOME=/tmp "$@"
