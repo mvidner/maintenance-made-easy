@@ -39,8 +39,12 @@ if [ -f $OSC_BUILD_ROOT/usr/src/packages/SOURCES/$PKG.changes ]; then
     : assuming the package has been built, recently
 else
     # short circuit the first build
-    sed -i -e '/^%build/aexit 1' $PKG.spec
-    osc build --build-uid=caller "$@" || true
+    # But we must check that it really got that far
+    SUCCESS_FILE=/tmp/build-root-ready
+    rm -f $OSC_BUILD_ROOT/$SUCCESS_FILE
+    sed -i -e "/^%build/atouch $SUCCESS_FILE; exit 1" $PKG.spec
+    osc build --build-uid=caller "$@" || :
+    rm $OSC_BUILD_ROOT/$SUCCESS_FILE # fails if not present
 fi
 # WTF? "BuildService API error: can't verify packages due to lack of GPG keys"
 #  retry with --no-verify
