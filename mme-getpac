@@ -35,6 +35,14 @@ case ${SHORT_PRJ-sp1} in
         API=https://api.opensuse.org
         PRJ=openSUSE:Factory
         ;;
+    123)
+        API=https://api.opensuse.org
+        PRJ=openSUSE:12.3:Update
+        ;;
+    122)
+        API=https://api.opensuse.org
+        PRJ=openSUSE:12.2:Update
+        ;;
     121)
         API=https://api.opensuse.org
         PRJ=openSUSE:12.1:Update
