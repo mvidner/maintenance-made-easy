@@ -39,25 +39,15 @@ case ${SHORT_PRJ-sp1} in
         API=https://api.opensuse.org
         PRJ=openSUSE:13.1
         ;;
-    123)
+    12[123])
+        MAJOR=${SHORT_PRJ%?}
+        MINOR=${SHORT_PRJ#??}
         API=https://api.opensuse.org
-        PRJ=openSUSE:12.3:Update
-        ;;
-    122)
-        API=https://api.opensuse.org
-        PRJ=openSUSE:12.2:Update
-        ;;
-    121)
-        API=https://api.opensuse.org
-        PRJ=openSUSE:12.1:Update
+        PRJ=openSUSE:$MAJOR.$MINOR:Update
         ;;
     114)
         API=https://api.opensuse.org
         PRJ=openSUSE:11.4:Update:Test
-        ;;
-    113)
-        API=https://api.opensuse.org
-        PRJ=openSUSE:11.3:Update:Test
         ;;
     sp3)
         PRJ=SUSE:SLE-11-SP3:GA
@@ -68,14 +58,9 @@ case ${SHORT_PRJ-sp1} in
     sp1)
         PRJ=SUSE:SLE-11-SP1:Update:Test
         ;;
-    sle10sp4)
-        PRJ=SUSE:SLE-10-SP4:Update:Test
-        ;;
-    sle10sp3)
-        PRJ=SUSE:SLE-10-SP3:Update:Test
-        ;;
-    sle10sp2)
-        PRJ=SUSE:SLE-10-SP2:Update:Test
+    sle10sp[234])
+        SP=${SHORT_PRJ#sle10sp}
+        PRJ=SUSE:SLE-10-SP$SP:Update:Test
         ;;
     *)
         echo missing case \'$SHORT_PRJ\' in $0
@@ -87,7 +72,7 @@ esac
 # $2 key
 osc_config_get () {
     osc config "$1" "$2" | sed "s/.* is set to '\([^']*\)'.*/\1/"
-} 
+}
 OSC_USER="$(osc_config_get $API user)"
 
 DEVEL_PRJ=`osc -A $API develproject $PRJ $PKG`

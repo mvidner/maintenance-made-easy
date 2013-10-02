@@ -9,41 +9,14 @@ case ${SHORT_PRJ-sp1} in
     factory)
         PRJ_BASE=""
         ;;
-    131)
-        PRJ_BASE=-131
+    131|12[123]|11[34])
+        PRJ_BASE=-$SHORT_PRJ
         ;;
-    123)
-        PRJ_BASE=-123
+    sp[123])
+        PRJ_BASE=-sle11$SHORT_PRJ
         ;;
-    122)
-        PRJ_BASE=-122
-        ;;
-    121)
-        PRJ_BASE=-121
-        ;;
-    114)
-        PRJ_BASE=-114
-        ;;
-    113)
-        PRJ_BASE=-113
-        ;;
-    sp3)
-        PRJ_BASE=-sle11sp3
-        ;;
-    sp2)
-        PRJ_BASE=-sle11sp2
-        ;;
-    sp1)
-        PRJ_BASE=-sle11sp1
-        ;;
-    sle10sp4)
-        PRJ_BASE=-sle10sp4
-        ;;
-    sle10sp3)
-        PRJ_BASE=-sle10sp3
-        ;;
-    sle10sp2)
-        PRJ_BASE=-sle10sp2
+    sle10sp[234])
+        PRJ_BASE=-$SHORT_PRJ
         ;;
     *)
         echo missing case \'$SHORT_PRJ\' in $0
