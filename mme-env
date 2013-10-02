@@ -9,6 +9,9 @@ case ${SHORT_PRJ-sp1} in
     factory)
         PRJ_BASE=""
         ;;
+    131)
+        PRJ_BASE=-131
+        ;;
     123)
         PRJ_BASE=-123
         ;;
