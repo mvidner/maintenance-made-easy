@@ -21,20 +21,21 @@ if test $PKG = yast2-devtools; then
     OPTS=Y2DEVTOOLS_PREFIX=/usr
 fi
 
-if test -f Makefile.cvs; then
-    # assuming yast2, svn
-    make -f Makefile.cvs
-    make package-local CHECK_SYNTAX=false $OPTS
-elif test -f CMakeLists.txt; then
+if test -f CMakeLists.txt -o -f PROJECTINFO.cmake; then
+    ./bootstrap.sh || :
     mkdir build
     cd build
     # from spec
     cmake -DCMAKE_INSTALL_PREFIX=/usr \
-      -DLIB=lib \
+      -DLIB=`rpm --eval '%{_lib}'` \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_SKIP_RPATH=1 \
       ..
     make srcpackage
+elif test -f Makefile.cvs; then
+    # assuming yast2, svn
+    make -f Makefile.cvs
+    make package-local CHECK_SYNTAX=false $OPTS
 else
     echo >&2 "Did not recognize the build system"
     exit 1
