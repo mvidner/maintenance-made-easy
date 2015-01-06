@@ -12,7 +12,7 @@ case ${SHORT_PRJ-sp1} in
     131|12[123]|11[34])
         PRJ_BASE=-$SHORT_PRJ
         ;;
-    sp[123])
+    sp[1234])
         PRJ_BASE=-sle11$SHORT_PRJ
         ;;
     sle10sp[234])
