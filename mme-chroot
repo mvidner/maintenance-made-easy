@@ -1,4 +1,4 @@
-#! /bin/sh -x
+#! /bin/bash -x
 # usage:
 # OSC_BUILD_ROOT=/path [USER=joe] mme-chroot command [args]
 
@@ -7,10 +7,19 @@ set -o errexit
 : ${USER=$LOGNAME}
 : ${ROOT=$OSC_BUILD_ROOT}
 
+if [ -z "$ROOT" ]; then
+    select ROOT in /var/tmp/build-root*/; do
+        break
+    done
+fi
+
+
 PASSWD=$ROOT/etc/passwd
 if ! grep -q "^${USER}:" "$PASSWD"; then
     sudo sh -c "getent passwd ${USER} >> ${PASSWD}"
 fi
 
 # TODO set prompt, WM label
-sudo chroot --userspec=$USER:users $ROOT env HOME=/tmp "$@"
+sudo chroot --userspec=$USER:users $ROOT \
+    env HOME=/tmp \
+        "${@-$SHELL}"
