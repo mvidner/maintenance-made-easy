@@ -1,5 +1,5 @@
 #! /bin/sh -x
-# mme env yast2-network sp1
+# mme-env yast2-network sp1
 
 PKG=$1
 SHORT_PRJ=$2

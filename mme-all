@@ -1,13 +1,14 @@
 #! /bin/sh -x
-# mme getpac yast2-network sp1
+# mme-all sp4
 set -o errexit
 
 GIT=""
 USAGE=false
 BRANCH=true
-while getopts hg:B FLAG; do
+while getopts hrg:B FLAG; do
     case $FLAG in
 	h) USAGE=true;;
+        r) PKG="$OPTARG";;
 	g) GIT="$OPTARG";;
         B) BRANCH=false;;
 	*) USAGE=true; RC=1;;
@@ -16,16 +17,34 @@ done
 shift $((OPTIND-1))
 
 if $USAGE; then
-    echo "Usage: $0 [options] PKG SHORT_PRJ"
+    set +x
+    # Remember to update README.md when changing this
+    echo "Usage: $0 [options] SHORT_PRJ [build options]"
+    echo
+    echo " where SHORT_PRJ is sp4 or sp3 (for SLE11), sle10sp4 ..."
+    echo
+    echo "Options:"
     echo " -h  Help"
-    echo " -g <git URL> clone from here instead"
+    echo " -r <RPM name>; defaults to contents of RPMNAME"
+    echo " -g <git URL> clone from here instead;"
+    echo "              defaults to CWD if .git/ exists"
     echo " -B  Don't branch the OBS project"
+    echo
+    echo "Build options:"
+    echo "  anything for 'osc build'; --no-verify or -x strace may be useful"
     exit $RC
 fi
 
-PKG=$1
-SHORT_PRJ=$2
-shift 2
+if [ -d ".git" ]; then
+    GIT=$(pwd)
+fi
+
+if [ -f RPMNAME ]; then
+    PKG=$(cat RPMNAME)
+fi
+
+SHORT_PRJ=$1
+shift 1
 
 
 # set OSC_BUILD_ROOT

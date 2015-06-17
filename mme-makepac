@@ -1,5 +1,6 @@
 #! /bin/sh -x
-# mme getpac yast2-network sp1
+# mme-makepac --clone /a-chroot/tmp/mme-makepac
+# mme-makepac yast2-network sp1
 
 # fd3 will be our output, stdout goes stderr
 exec 3>&1 >&2
