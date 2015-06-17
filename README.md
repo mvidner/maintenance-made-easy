@@ -1,10 +1,12 @@
 mme: Maintenance Made Easy
 ==========================
 
-Package, build and release YaST maintenance
+Package, build and release [YaST](http://yast.github.io/) maintenance
 updates for SUSE Linux Enterprise 11 and 10.
 
-(For SLE 12 a better mechanism based on Jenkins CI is already in place)
+(For SLE 12 a [better mechanism based on Jenkins CI][jci] is already in place)
+
+[jci]: http://yastgithubio.readthedocs.org/en/latest/development/#automatic-submission
 
 It uses OBS (openSUSE Build Service), and Git. It builds in a chroot without
 needing virtual machines.
@@ -12,8 +14,13 @@ needing virtual machines.
 Installation
 ------------
 
-Clone this repository. `make install-links` will link the programs from the
-working copy to your `$HOME/bin`.
+```
+git clone https://github.com/mvidner/maintenance-made-easy.git
+cd maintenance-made-easy
+make install-links
+```
+
+It will link the programs from the working copy to your `$HOME/bin`.
 
 Usage
 -----
@@ -29,7 +36,7 @@ mme-all sp4
 The required argument is the target release. The full option menu is:
 
 ```
-Usage: /local/home-mvidner/bin/mme-all [options] SHORT_PRJ [build options]
+Usage: mme-all [options] SHORT_PRJ [build options]
 
  where SHORT_PRJ is sp4 or sp3 (for SLE11), sle10sp4 ...
 
@@ -48,7 +55,7 @@ Operation
 ---------
 
 The script will read RPMNAME and check out the latest good package from IBS
-(to ~/obs/$REPO/$RPMNAME). Actually it will branch the OBS package first so
+(to `~/obs/$REPO/$RPMNAME`). Actually it will branch the OBS package first so
 that you can then commit and submit your package, once the fix is confirmed to
 be good. If you are just testing a colleague's fix you may want to skip the
 branch with `mme-all -B`.
