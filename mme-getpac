@@ -30,7 +30,7 @@ shift 2
 
 API=https://api.suse.de
 
-case ${SHORT_PRJ-sp1} in
+case ${SHORT_PRJ-sp4} in
     factory)
         API=https://api.opensuse.org
         PRJ=openSUSE:Factory
@@ -49,16 +49,16 @@ case ${SHORT_PRJ-sp1} in
         API=https://api.opensuse.org
         PRJ=openSUSE:11.4:Update:Test
         ;;
-    sp4)
-        PRJ=SUSE:SLE-11-SP4:GA
+    sle11sp4|sp4)
+        PRJ=SUSE:SLE-11-SP4:Update
         ;;
-    sp3)
+    sle11sp3|sp3)
         PRJ=SUSE:SLE-11-SP3:Update:Test
         ;;
-    sp2)
+    sle11sp2|sp2)
         PRJ=SUSE:SLE-11-SP2:Update:Test
         ;;
-    sp1)
+    sle11sp1|sp1)
         PRJ=SUSE:SLE-11-SP1:Update:Test
         ;;
     sle10sp[234])

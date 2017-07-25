@@ -71,10 +71,11 @@ result to the OBS checkout.
 
 It will call `osc build`.
 
-If the build succeeded, you are ready to `osc ci` and `osc sr`. (But remember
-to merge the reviewed fix in Git first.)
+If the build *succeeded*, you should proceed to call `osc ci` and `osc sr`
+by hand. This is **not automatic**.
+(But remember to merge the reviewed fix in Git first.)
 
-If the build failed, call `mme-chroot` and select the appropriate build root
+If the build *failed*, call `mme-chroot` and select the appropriate build root
 from a menu to get a shell where you can enjoy debugging.
 
 About
