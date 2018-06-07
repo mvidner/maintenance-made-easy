@@ -47,23 +47,23 @@ case ${SHORT_PRJ-sp4} in
         ;;
     114)
         API=https://api.opensuse.org
-        PRJ=openSUSE:11.4:Update:Test
+        PRJ=openSUSE:11.4:Update
         ;;
     sle11sp4|sp4)
-        PRJ=SUSE:SLE-11-SP4:Update
+        PRJ=SUSE:SLE-11-SP4
         ;;
     sle11sp3|sp3)
-        PRJ=SUSE:SLE-11-SP3:Update:Test
+        PRJ=SUSE:SLE-11-SP3:Update
         ;;
     sle11sp2|sp2)
-        PRJ=SUSE:SLE-11-SP2:Update:Test
+        PRJ=SUSE:SLE-11-SP2:Update
         ;;
     sle11sp1|sp1)
-        PRJ=SUSE:SLE-11-SP1:Update:Test
+        PRJ=SUSE:SLE-11-SP1:Update
         ;;
     sle10sp[234])
         SP=${SHORT_PRJ#sle10sp}
-        PRJ=SUSE:SLE-10-SP$SP:Update:Test
+        PRJ=SUSE:SLE-10-SP$SP:Update
         ;;
     *)
         echo missing case \'$SHORT_PRJ\' in $0
