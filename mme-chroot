@@ -19,7 +19,18 @@ if ! grep -q "^${USER}:" "$PASSWD"; then
     sudo sh -c "getent passwd ${USER} >> ${PASSWD}"
 fi
 
+# m DIR CMD...
+# bind-mount /DIR to $ROOT/DIR; do CMD; then unmount
+m() {
+    local M=$1
+    shift
+    sudo mount --bind /$M $ROOT/$M
+    "$@"
+    sudo umount $ROOT/$M
+}
+
 # TODO set prompt, WM label
-sudo chroot --userspec=$USER:users $ROOT \
+m proc m dev m sys m run \
+  sudo chroot --userspec=$USER:users $ROOT \
     env HOME=/tmp \
-        "${@-$SHELL}"
+      "${@-$SHELL}"
